@@ -2,6 +2,7 @@ from loguru import logger
 import dlt
 from dlt.destinations import duckdb
 from ingest_data.mercadona.source import mercadona_source
+from ingest_data.utils import run_pipeline
 
 
 def load_mercadona() -> None:
@@ -12,11 +13,7 @@ def load_mercadona() -> None:
         progress=dlt.progress.tqdm()
     )
 
-    resource_list = mercadona_source().resources.keys()
-
-    for resource in resource_list:
-        logger.info(f"Loading data for resource: {resource} ...")
-        pipeline.run(mercadona_source().with_resources(resource))
+    run_pipeline(pipeline, mercadona_source)
 
 
 if __name__ == "__main__":
