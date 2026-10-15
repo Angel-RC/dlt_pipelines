@@ -1,5 +1,6 @@
 from loguru import logger
 
+
 def run_pipeline(pipeline, source, resources=None) -> None:
     resources = resources or source().resources.keys()
     if set(resources) == set(source().resources.keys()):

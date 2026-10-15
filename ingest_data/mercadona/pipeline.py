@@ -1,6 +1,6 @@
-from loguru import logger
 import dlt
 from dlt.destinations import duckdb
+
 from ingest_data.mercadona.source import mercadona_source
 from ingest_data.utils import run_pipeline
 

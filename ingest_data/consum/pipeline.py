@@ -1,5 +1,6 @@
 import dlt
 from dlt.destinations import duckdb
+
 from ingest_data.consum.source import consum_source
 from ingest_data.utils import run_pipeline
 

@@ -1,5 +1,6 @@
 import dlt
 from dlt.destinations import duckdb
+
 from ingest_data.trustpilot.source import source_trustpilot
 from ingest_data.utils import run_pipeline
 
