@@ -11,7 +11,8 @@ Extrae, normaliza y carga en DuckDB el catálogo de productos y categorías de d
 | Supermercado | Datos ingestados |
 |---|---|
 | Mercadona | Categorías, historial de productos (scd2) |
-| Consum | Categorías, productos |
+| Consum | Categorías, historial de productos (scd2; versión vigente con `_dlt_valid_to IS NULL`) |
+| Carrefour | Categorías, historial de productos (scd2) |
 
 ## Estructura
 
@@ -41,15 +42,22 @@ uv sync
 ## Uso
 
 ```bash
+# Atajos (requiere tener `just` instalado)
+just --list
+just check
+
 # Mercadona
 uv run ingest_data/mercadona/pipeline.py
 
 # Consum
 uv run ingest_data/consum/pipeline.py
+
 ```
+
+Los comandos `just mercadona`, `just consum`, `just trustpilot` y `just klav`iyo` ejecutan esos pipelines; consultan fuentes reales y escriben en `data/`.
 
 ## Tecnologías
 
-- **[dlt](https://dlthub.com/)**: extracción y carga de datos desde APIs REST
+- **[dlt](https://dlthub.com/)**: extracción y carga de datos desde APIs REST 
 - **[DuckDB](https://duckdb.org/)**: base de datos destino
 - **[uv](https://docs.astral.sh/uv/)**: gestión de dependencias

@@ -13,6 +13,8 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
+    "ruff",
+    "ty",
 ]
 
 [tool.hatch.build.targets.wheel]

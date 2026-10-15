@@ -1,10 +1,10 @@
-from typing import Any
-from requests.models import Response
 import json
-from loguru import logger
+from typing import Any
+
 import dlt
-from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
 from dlt.sources.helpers.rest_client.paginators import OffsetPaginator
+from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
+from requests.models import Response
 
 
 def _flatten_categories(node: dict, parent_id: int | None = None) -> list[dict]:
@@ -58,6 +58,7 @@ def consum_source() -> Any:
             },
             {
                 "name": "products",
+                "table_name": "products_history",
                 "write_disposition": {"disposition": "merge", "strategy": "scd2"},
                 "primary_key": "id",
                 "endpoint": {
