@@ -1,20 +1,22 @@
 
-from typing import List
 import os
+
 import dlt
-from dlt.extract.source import DltResource
+from dlt.extract.source import DltSource
 from dlt.sources.rest_api import (
     RESTAPIConfig,
-    check_connection,
-    rest_api_resources,
     rest_api_source,
 )
 
+
 @dlt.source(name="klaviyo_source", max_table_nesting=2)
 def klaviyo_source(
-        api_key: str = os.getenv("KLAVIYO_API_KEY"),
+        api_key: str | None = None,
         base_url: str = "https://a.klaviyo.com",
-) -> List[DltResource]:
+) -> DltSource:
+    api_key = api_key or os.getenv("KLAVIYO_API_KEY")
+    if api_key is None:
+        raise ValueError("Set KLAVIYO_API_KEY or pass api_key to klaviyo_source")
 
     # source configuration
     source_config: RESTAPIConfig = {

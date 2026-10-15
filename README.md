@@ -56,6 +56,12 @@ uv run ingest_data/consum/pipeline.py
 
 Los comandos `just mercadona`, `just consum`, `just trustpilot` y `just klav`iyo` ejecutan esos pipelines; consultan fuentes reales y escriben en `data/`.
 
+## Pull requests y revisión
+
+Los agentes deben publicar los cambios en una rama y abrir una PR con `gh`; la guía está en `AGENTS.md` y el procedimiento detallado en `.agents/skills/ship-pr/SKILL.md`. Al abrir o actualizar una PR, GitHub Actions ejecuta las pruebas offline, Ruff y ty. La acción no ejecuta pipelines de ingesta.
+
+Un administrador debe proteger la rama base en GitHub y exigir el check `CI / checks` y al menos una aprobación humana antes de permitir el merge. Esta protección se configura en GitHub y no queda aplicada únicamente por añadir el workflow.
+
 ## Tecnologías
 
 - **[dlt](https://dlthub.com/)**: extracción y carga de datos desde APIs REST 

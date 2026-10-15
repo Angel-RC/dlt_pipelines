@@ -1,8 +1,8 @@
-from typing import Any, Optional
-import json
-from loguru import logger
 import dlt
+from loguru import logger
+
 from ingest_data.klaviyo.source import klaviyo_source
+
 
 def load_klaviyo(resource_list = None) -> None:
     pipeline = dlt.pipeline(
@@ -19,7 +19,7 @@ def load_klaviyo(resource_list = None) -> None:
             try:
                 logger.info(f"Loading data for resource: {resource} ...")
                 pipeline.run(klaviyo_source().with_resources(resource))
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001 -- isolate failures per resource
                 logger.error(f"Loading data for resource: {resource} ...")
                 logger.error(e)
 

@@ -1,16 +1,15 @@
-from typing import Any, Optional
-from requests.models import Response
 import json
 import time
-from loguru import logger
+from typing import Any
+
 import dlt
-from dlt.common.pendulum import pendulum
 from dlt.sources.rest_api import (
     RESTAPIConfig,
-    check_connection,
     rest_api_resources,
-    rest_api_source,
 )
+from loguru import logger
+from requests.models import Response
+
 
 def clean_products_history(record):
     record.pop("unavailable_weekdays", None)
@@ -22,7 +21,7 @@ def clean_categories(response: Response, *args, **kwargs) -> Response:
     all_categories = []
     for record in payload["results"]:
         categories = record["categories"]
-        categories = [dict(item, **{'category_group_name':record["name"], 'category_group_id':record["id"]}) for item in categories]
+        categories = [dict(item, category_group_name=record["name"], category_group_id=record["id"]) for item in categories]
         
         all_categories += categories
     all_categories.sort(key=lambda x: x["id"])
@@ -31,7 +30,7 @@ def clean_categories(response: Response, *args, **kwargs) -> Response:
     response._content = modified_content
     return response
 
-def wait_to_continue(response: Response = None, *args, **kwargs):
+def wait_to_continue(response: Response, *args, **kwargs):
     logger.debug("Waiting 5 segs due to 403, will retry...")
     time.sleep(5)
     response.raise_for_status()  # lanza excepción para que tenacity reintente

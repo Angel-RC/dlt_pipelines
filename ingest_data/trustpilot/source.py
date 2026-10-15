@@ -1,11 +1,13 @@
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 import dlt
-from dlt.common import jsonpath
 from dlt.sources.helpers import requests
-from dlt.sources.helpers.requests import Request, Response
-from dlt.sources.helpers.rest_client.paginators import PageNumberPaginator, SinglePagePaginator
+from dlt.sources.helpers.requests import Request
+from dlt.sources.helpers.rest_client.paginators import (
+    PageNumberPaginator,
+    SinglePagePaginator,
+)
 from dlt.sources.rest_api import RESTAPIConfig, rest_api_resources
 
 
@@ -30,8 +32,10 @@ HEADERS = {
 def get_build_id(url="https://www.trustpilot.com/review/singularu.com"):
     response = requests.get(url, headers=HEADERS)
 
-    build_id = re.search(r'"buildId":\s?"([^"]+)"', response.text).group(1)
-    return build_id
+    match = re.search(r'"buildId":\s?"([^"]+)"', response.text)
+    if match is None:
+        raise ValueError("Trustpilot response did not contain a buildId")
+    return match.group(1)
 
 
 @dlt.source(name="trustpilot")
